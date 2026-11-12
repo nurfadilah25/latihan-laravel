@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['name', 'department_id'])]
+#[Fillable(['name', 'department_id', 'avatar'])]
 
 class Lecturer extends Model
 {
     /** @use HasFactory */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     public function department(): BelongsTo
     {

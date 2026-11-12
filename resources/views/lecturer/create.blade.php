@@ -4,7 +4,7 @@
 
 
 
-    <form method="POST" action="{{ route('lecturer.store') }}">
+    <form method="POST" action="{{ route('lecturer.store') }}" enctype="multipart/form-data">
         @csrf
 
 
@@ -18,10 +18,20 @@
         </div>
 
         <div class="mb-3">
+            <label for="avatar" class="form-label">Upload Avatar</label>
+            <input type="file" class="form-control @error('avatar') is-invalid @enderror" id="upload"
+                name="avatar">
+            @error('avatar')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+            <img src="{{ asset('images/no-profil.jpg') }}" alt="" class="w-25 rounded mt-2" id="preview">
+        </div>
+
+        <div class="mb-3">
             <label for="nim" class="form-label">Department</label>
 
             <select class="form-select @error('department_id') is-invalid @enderror" name="department_id"
-                id="deparment_id">
+                id="department_id">
                 <option value="">-- Choose Department --</option>
                 @foreach ($departments as $department)
                     <option value="{{ $department->id }}" @selected(old('department_id') == $department->id)>
