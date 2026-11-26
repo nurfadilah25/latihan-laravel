@@ -115,6 +115,34 @@ class LecturerController extends Controller
      */
     public function destroy(Lecturer $lecturer)
     {
-        //
+        $lecturer->delete();
+
+        return to_route('lecturer.index')->withSuccess('Data Berhasil Dihapus');
+    }
+
+    // ====soft deleting====
+    public function trash()
+    {
+        return view('lecturer.trash', [
+            'title' => 'Lecturer Trash',
+            'lecturers' => Lecturer::onlyTrashed()->latest()->get(),
+        ]);
+    }
+
+    public function restore(Lecturer $lecturer)
+    {
+        $lecturer->restore();
+
+        return to_route('lecturer.trash')->withSuccess('Data Berhasil Dipulihkan');
+    }
+
+    public function forceDelete(Lecturer $lecturer)
+    {
+        $lecturer->forceDelete();
+        if ($lecturer->avatar) {
+                Storage::disk('public')->delete($lecturer->avatar);
+            }
+
+        return to_route('lecturer.trash')->withSuccess('Data Berhasil Dihapus Permanent');
     }
 }
